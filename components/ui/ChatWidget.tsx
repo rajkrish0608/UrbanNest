@@ -1,11 +1,5 @@
 'use client';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// ChatWidget — floating pill launcher + slide-up chat panel (pure UI)
-// N8N integration: replace the mock messages with a real fetch to your
-// N8N webhook when ready. The UI shell is complete and isolated.
-// ──────────────────────────────────────────────────────────────────────────────
-
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,25 +9,10 @@ interface Message {
   text: string;
 }
 
-const MOCK_RESPONSES: Record<string, string> = {
-  default: 'Thanks for reaching out! Our team will get back to you shortly. In the meantime, feel free to browse our curated collection.',
-  shipping: 'We ship across India within 3–5 business days. International shipping is available on request.',
-  gift: 'Our gifting service creates personalised boxes starting at ₹1,500. Tell us about the recipient and occasion!',
-  hours: 'We\'re open Mon–Sat 10:00–20:00 and Sundays 11:00–18:00. You can also shop online anytime.',
-};
-
-function getBotResponse(message: string): string {
-  const lower = message.toLowerCase();
-  if (lower.includes('ship') || lower.includes('deliver')) return MOCK_RESPONSES.shipping;
-  if (lower.includes('gift') || lower.includes('present')) return MOCK_RESPONSES.gift;
-  if (lower.includes('hour') || lower.includes('open') || lower.includes('time')) return MOCK_RESPONSES.hours;
-  return MOCK_RESPONSES.default;
-}
-
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, role: 'assistant', text: 'Hello! I\'m the UrbanNest assistant. Ask me about our products, gifting, shipping, or store hours.' },
+    { id: 0, role: 'assistant', text: "Hello! I'm the UrbanNest assistant. Ask me about our curated home décor, gifting, shipping, or store hours." },
   ]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -43,7 +22,7 @@ export default function ChatWidget() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, typing]);
 
-  const send = () => {
+  const send = async () => {
     const text = input.trim();
     if (!text) return;
     setInput('');
@@ -51,15 +30,54 @@ export default function ChatWidget() {
     const userMsg: Message = { id: Date.now(), role: 'user', text };
     setMessages((prev) => [...prev, userMsg]);
 
-    // TODO: Replace with real N8N webhook call
     setTyping(true);
-    setTimeout(() => {
-      setTyping(false);
+
+    try {
+      // POSTing to user's n8n chatbot webhook
+      const res = await fetch('https://shibagni.app.n8n.cloud/webhook/89f6f7b9-d89f-45d0-b564-1c514d4fceb1/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text,
+          chatInput: text,
+          sender: 'website-user'
+        })
+      });
+
+      if (!res.ok) throw new Error('Network error');
+
+      const data = await res.json();
+      
+      // Determine the bot message text from standard n8n chatbot response structures
+      let replyText = '';
+      if (typeof data === 'string') {
+        replyText = data;
+      } else if (data && typeof data === 'object') {
+        replyText = data.output || data.response || data.text || data.message || JSON.stringify(data);
+      }
+
+      if (!replyText) {
+        replyText = "I received your query but couldn't parse the response. We are here to help!";
+      }
+
       setMessages((prev) => [
         ...prev,
-        { id: Date.now() + 1, role: 'assistant', text: getBotResponse(text) },
+        { id: Date.now() + 1, role: 'assistant', text: replyText },
       ]);
-    }, 1200);
+    } catch (err) {
+      console.error('Chat error:', err);
+      // Fallback message if webhook is offline or misconfigured
+      setMessages((prev) => [
+        ...prev,
+        { 
+          id: Date.now() + 1, 
+          role: 'assistant', 
+          text: "Thanks for reaching out! Our team is offline right now, but we've received your query and will reply via email shortly." 
+        },
+      ]);
+    } finally {
+      setTyping(false);
+    }
   };
 
   const handleKey = (e: React.KeyboardEvent) => {
@@ -98,7 +116,7 @@ export default function ChatWidget() {
                 <span
                   style={{ fontSize: '0.625rem', opacity: 0.4, fontWeight: 400, marginTop: '2px' }}
                 >
-                  Usually replies instantly
+                  n8n Chatbot Integration Active
                 </span>
               </div>
               <button

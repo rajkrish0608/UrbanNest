@@ -4,6 +4,7 @@ import './globals.css';
 import LenisProvider from '@/lib/lenis';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
+import ChatWidget from '@/components/ui/ChatWidget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Nav />
           <main>{children}</main>
           <Footer />
+          <ChatWidget />
         </LenisProvider>
       </body>
     </html>
