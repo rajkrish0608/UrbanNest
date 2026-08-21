@@ -57,6 +57,7 @@ export default function WhyChooseUs() {
         className='hidden md:block relative'
         style={{ height: `${POINTS.length * 100}vh` }}
       >
+        <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
         {POINTS.map((point, i) => (
           <div
             key={point.number}
@@ -118,6 +119,7 @@ export default function WhyChooseUs() {
             </div>
           </div>
         ))}
+        </div>
       </div>
 
       {/* Mobile — stacked */}

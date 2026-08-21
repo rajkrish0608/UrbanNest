@@ -107,10 +107,8 @@ export function whyChooseUsPin(
     scrollTrigger: {
       trigger: container,
       start: 'top top',
-      end: `+=${panels.length * 100}%`,
+      end: 'bottom bottom',
       scrub: 1,
-      pin: true,
-      anticipatePin: 1,
     },
   });
 
