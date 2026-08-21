@@ -16,6 +16,16 @@ export default function FeaturedProducts() {
 
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on mobile to switch accordion orientation
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current || !headerRef.current) return;
@@ -108,7 +118,7 @@ export default function FeaturedProducts() {
           height={480}
           gap={16}
           radius={12}
-          orientation="horizontal"
+          orientation={isMobile ? 'vertical' : 'horizontal'}
         />
       </div>
 

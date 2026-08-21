@@ -96,12 +96,12 @@ export default function Hero() {
           zIndex: 20,
           pointerEvents: 'none',
           width: '100%',
-          padding: '0 4rem',
           marginTop: '-320vh',
           marginBottom: '0',
           height: 0,
           overflow: 'visible',
         }}
+        className='px-6 md:px-16'
       >
         {/* Tagline */}
         <p
@@ -136,7 +136,7 @@ export default function Hero() {
             repelRadius={130}
             idleDrift={0.6}
             trigger='mount'
-            fontSize='clamp(3.5rem, 10vw, 7rem)'
+            fontSize='clamp(2.5rem, 12vw, 7rem)'
             fontWeight={500}
             fontFamily='Inter, sans-serif'
             glow
@@ -161,6 +161,7 @@ export default function Hero() {
 
       {/* Right-edge vertical label */}
       <div
+        className='hidden md:block'
         style={{
           position: 'fixed',
           right: '1.5rem',
