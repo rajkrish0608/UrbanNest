@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import gsap from 'gsap';
 import { whyChooseUsPin } from '@/lib/animations';
 
 const POINTS = [
@@ -30,15 +31,17 @@ const POINTS = [
 export default function WhyChooseUs() {
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<HTMLDivElement[]>([]);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
   useEffect(() => {
-    if (isMobile) return;
     if (!containerRef.current) return;
     const panels = panelRefs.current.filter(Boolean);
-    const tl = whyChooseUsPin(containerRef.current, panels);
-    return () => { tl?.kill(); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    
+    // Use gsap matchMedia so the animation properly initializes/cleans up on resize
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px)', () => {
+      whyChooseUsPin(containerRef.current!, panels);
+    });
+    
+    return () => mm.revert();
   }, []);
 
   return (
@@ -46,9 +49,9 @@ export default function WhyChooseUs() {
       {/* Section label */}
       <div className='px-8 md:px-16 py-16'>
         <hr className='divider-dashed mb-16' />
-        <span className='type-label text-cream' style={{ fontSize: '0.625rem', letterSpacing: '0.2em', opacity: 0.4 }}>
+        <h2 className='type-heading text-accent' style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', letterSpacing: '0.1em', opacity: 1 }}>
           WHY URBANNEST
-        </span>
+        </h2>
       </div>
 
       {/* Desktop — pinned crossfade */}

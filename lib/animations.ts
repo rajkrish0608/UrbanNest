@@ -115,8 +115,9 @@ export function whyChooseUsPin(
   panels.forEach((panel, i) => {
     if (i === 0) return;
     const prev = panels[i - 1];
-    tl.to(prev, { opacity: 0, duration: 0.5 }, i - 1)
-      .to(panel, { opacity: 1, duration: 0.5 }, i - 0.5);
+    // Simultaneously fade out the previous panel and fade in the next panel over 1 unit of time
+    tl.to(prev, { opacity: 0, duration: 1 }, i - 1)
+      .to(panel, { opacity: 1, duration: 1 }, i - 1);
   });
 
   return tl;
