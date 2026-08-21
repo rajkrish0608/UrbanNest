@@ -10,21 +10,25 @@ const POINTS = [
     number: '01',
     heading: 'CURATED QUALITY',
     body: "Every product passes through our hands before it reaches yours. If we wouldn't put it in our own home, it doesn't make the cut.",
+    image: '/images/why-interior.jpg',
   },
   {
     number: '02',
     heading: 'ARTISAN SOURCES',
     body: 'We travel to the source — Kutch, Channapatna, Chettinad — and work with makers who have spent decades perfecting a single craft.',
+    image: '/images/about-artisan.jpg',
   },
   {
     number: '03',
     heading: 'GIFTING EXPERTISE',
     body: "Our gift curation service takes a brief and returns a box that feels personal. Not a generic hamper — a considered object.",
+    image: '/images/product-linen-cushion.jpg',
   },
   {
     number: '04',
     heading: 'LIFETIME SUPPORT',
     body: "Broken, worn, or faded — we'll help you repair, replace, or refresh. We believe in the long relationship, not just the first sale.",
+    image: '/images/product-rattan-tray.jpg',
   },
 ];
 
@@ -57,10 +61,8 @@ export default function WhyChooseUs() {
       {/* Desktop — pinned crossfade */}
       <div
         ref={containerRef}
-        className='hidden md:block relative'
-        style={{ height: `${POINTS.length * 100}vh` }}
+        className='hidden md:block relative w-full h-screen overflow-hidden'
       >
-        <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
         {POINTS.map((point, i) => (
           <div
             key={point.number}
@@ -86,18 +88,16 @@ export default function WhyChooseUs() {
                   {point.heading}
                 </h2>
 
-                {/* Interior image — shown in panels 0 and 1 */}
-                {i < 2 && (
-                  <div style={{ position: 'relative', width: '100%', height: '300px', borderRadius: '12px', overflow: 'hidden' }}>
-                    <Image
-                      src='/images/why-interior.jpg'
-                      alt='Curated UrbanNest shelf'
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      sizes='45vw'
-                    />
-                  </div>
-                )}
+                {/* Interior image */}
+                <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '12px', overflow: 'hidden' }}>
+                  <Image
+                    src={point.image}
+                    alt={point.heading}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    sizes='45vw'
+                  />
+                </div>
               </div>
 
               {/* Right — body copy */}
@@ -122,7 +122,6 @@ export default function WhyChooseUs() {
             </div>
           </div>
         ))}
-        </div>
       </div>
 
       {/* Mobile — stacked */}
@@ -145,10 +144,10 @@ export default function WhyChooseUs() {
           </div>
         ))}
         {/* Mobile interior image */}
-        <div style={{ position: 'relative', width: '100%', height: '300px', margin: '2rem 0' }}>
+        <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', margin: '2rem 0', borderRadius: '12px', overflow: 'hidden' }}>
           <Image
-            src='/images/why-interior.jpg'
-            alt='Curated UrbanNest shelf'
+            src={POINTS[0].image}
+            alt={POINTS[0].heading}
             fill
             style={{ objectFit: 'cover' }}
             sizes='100vw'

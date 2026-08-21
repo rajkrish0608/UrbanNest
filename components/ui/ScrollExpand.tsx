@@ -149,7 +149,7 @@ const ScrollExpand = ({
   return (
     <div ref={rootRef} className={`scroll-expand${useWindowScroll ? '' : ' scroll-expand--scroller'} ${className}`.trim()} style={{ position:'relative', width:'100%', height:'100%', ...style }}>
       <div ref={trackRef} style={{ position:'relative', width:'100%' }}>
-        <div ref={stageRef} style={{ position:'sticky', top:0, width:'100%', overflow:'hidden' }}>
+        <div ref={stageRef} style={{ position:'sticky', top:0, width:'100%', height: '100vh', overflow:'hidden' }}>
           <div ref={frameRef} style={{ position:'absolute', inset:0, clipPath:`inset(21% 29% 21% 29% round 24px)`, willChange:'clip-path' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img ref={mediaRef} src={src} alt={alt} draggable={false} style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', willChange:'transform', transformOrigin:'center', userSelect:'none' }} />

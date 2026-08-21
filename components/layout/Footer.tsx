@@ -11,7 +11,7 @@ const SOCIALS = [
 export default function Footer() {
   return (
     <footer
-      id='contact'
+      id='footer'
       className='w-full py-16 px-8'
       style={{ borderTop: '1px dashed var(--color-border)' }}
     >

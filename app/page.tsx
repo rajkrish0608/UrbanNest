@@ -6,6 +6,7 @@ import Hero from '@/components/sections/Hero';
 import About from '@/components/sections/About';
 import FeaturedProducts from '@/components/sections/FeaturedProducts';
 import WhyChooseUs from '@/components/sections/WhyChooseUs';
+import Testimonials from '@/components/sections/Testimonials';
 import CustomerInteraction from '@/components/sections/CustomerInteraction';
 
 // Loader is client-only (GSAP), lazy-loaded
@@ -49,6 +50,7 @@ export default function Home() {
         <About />
         <FeaturedProducts />
         <WhyChooseUs />
+        <Testimonials />
         <CustomerInteraction />
       </main>
     </>

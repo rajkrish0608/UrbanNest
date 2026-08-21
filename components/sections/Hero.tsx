@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import MagneticButton from '@/components/ui/MagneticButton';
 import ScrollExpand from '@/components/ui/ScrollExpand';
@@ -17,6 +17,16 @@ const ParticleText = dynamic(() => import('@/components/ui/ParticleText'), {
     </h1>
   ),
 });
+
+class HeroErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: any}> {
+  constructor(props: any) { super(props); this.state = { hasError: false, error: null }; }
+  static getDerivedStateFromError(error: any) { return { hasError: true, error }; }
+  componentDidCatch(error: any, info: any) { console.error("HERO ERROR:", error, info); }
+  render() { 
+    if (this.state.hasError) return <div style={{background: 'red', color: 'white', padding: '2rem'}}>HERO ERROR: {this.state.error?.message}</div>;
+    return this.props.children; 
+  }
+}
 
 export default function Hero() {
   const taglineRef = useRef<HTMLParagraphElement>(null);
@@ -42,6 +52,7 @@ export default function Hero() {
   }, []);
 
   return (
+    <HeroErrorBoundary>
     <section id='hero' style={{ position: 'relative', width: '100%' }}>
       {/* ── ScrollExpand hero image ──────────────────────────────────── */}
       <div style={{ height: '320vh', position: 'relative' }}>
@@ -54,7 +65,7 @@ export default function Hero() {
           startRadius={20}
           endRadius={0}
           mediaZoom={1.3}
-          scrollDistance={0.7}
+          scrollDistance={2.0}
           holdDistance={0.2}
           smoothing={0.08}
           overlayScrim={0.55}
@@ -107,8 +118,11 @@ export default function Hero() {
           LITTLE THINGS. BEAUTIFUL LIVING.
         </p>
 
+        {/* Accessible H1 landmark for screen readers */}
+        <h1 className='sr-only'>UrbanNest — Little Things. Beautiful Living.</h1>
+
         {/* Particle wordmark */}
-        <div style={{ height: 'clamp(100px, 15vw, 180px)', width: '100%', maxWidth: '900px' }}>
+        <div style={{ height: 'clamp(100px, 15vw, 180px)', width: '100%', maxWidth: '900px' }} aria-hidden='true'>
           <ParticleText
             text='URBANNEST'
             particleSize={2.4}
@@ -160,5 +174,6 @@ export default function Hero() {
         <span className='sidebar-label'>EST. · HANDCRAFTED · CURATED LIVING</span>
       </div>
     </section>
+    </HeroErrorBoundary>
   );
 }

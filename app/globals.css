@@ -31,7 +31,7 @@ html {
   font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   /* Smooth scrolling handled by Lenis, not CSS */
 }
 
@@ -39,7 +39,7 @@ body {
   background-color: var(--color-canvas);
   color: var(--color-cream);
   min-height: 100dvh;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Prevent flash of unstyled scrollbar */

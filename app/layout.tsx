@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <LenisProvider>
           <Nav />
-          <main>{children}</main>
+          {children}
           <Footer />
           <ChatWidget />
         </LenisProvider>

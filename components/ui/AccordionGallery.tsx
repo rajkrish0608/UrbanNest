@@ -52,6 +52,12 @@ const AccordionGallery = ({
       ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
       : false;
 
+  useEffect(() => {
+    if (active >= count) {
+      setActive(Math.max(0, count - 1));
+    }
+  }, [count, active]);
+
   const applyLayout = useCallback(
     (animate: boolean) => {
       const panels = panelRefs.current;
@@ -109,6 +115,7 @@ const AccordionGallery = ({
       tlRef.current = tl;
     },
     [
+      items,
       active,
       count,
       expandRatio,

@@ -106,8 +106,9 @@ export function whyChooseUsPin(
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: container,
+      pin: true,
       start: 'top top',
-      end: 'bottom bottom',
+      end: `+=${panels.length * 100}%`,
       scrub: 1,
     },
   });
@@ -115,9 +116,12 @@ export function whyChooseUsPin(
   panels.forEach((panel, i) => {
     if (i === 0) return;
     const prev = panels[i - 1];
-    // Simultaneously fade out the previous panel and fade in the next panel over 1 unit of time
-    tl.to(prev, { opacity: 0, duration: 1 }, i - 1)
-      .to(panel, { opacity: 1, duration: 1 }, i - 1);
+    
+    const startTime = (i - 1) * 2;
+    // Fade out previous panel
+    tl.to(prev, { opacity: 0, y: -30, duration: 1, ease: 'power1.inOut' }, startTime + 1)
+      // Fade in next panel slightly overlapping
+      .fromTo(panel, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: 'power1.inOut' }, startTime + 1.5);
   });
 
   return tl;

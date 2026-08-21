@@ -14,15 +14,14 @@ export default function CustomerInteraction() {
           className='type-label text-cream'
           style={{ fontSize: '0.625rem', letterSpacing: '0.2em', opacity: 0.4 }}
         >
-          GET IN TOUCH
+          GET IN TOUCH & VISIT STORE
         </span>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 min-h-[60vh]'>
-        {/* ── Left — About the conversation ──────────────────────── */}
+      <div className='grid grid-cols-1 md:grid-cols-2 min-h-[60vh] gap-12 md:gap-0'>
+        {/* ── Left — Contact Details + Google Maps ──────────────────────── */}
         <div
-          className='flex flex-col justify-between px-8 md:px-16 py-12'
-          style={{ borderRight: '1px dashed var(--color-border)' }}
+          className='flex flex-col justify-between px-8 md:px-16 py-12 md:border-r border-dashed border-[var(--color-border)]'
         >
           <div>
             <h2
@@ -40,7 +39,7 @@ export default function CustomerInteraction() {
             </p>
           </div>
 
-          <div className='flex flex-col gap-6 mt-12'>
+          <div className='flex flex-col gap-6 mt-10 mb-8'>
             {[
               { label: 'EMAIL', value: 'hello@urbannest.in' },
               { label: 'PHONE', value: '+91 98200 00001' },
@@ -61,6 +60,20 @@ export default function CustomerInteraction() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Google Maps Store Location Embed */}
+          <div className="w-full h-48 rounded-xl overflow-hidden border border-dashed border-[var(--color-border)] mt-4">
+            <iframe
+              title="UrbanNest Store Location Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.441094380693!2d72.83151817505118!3d19.044327982154447!2m3!1f0!f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c936054817a5%3A0xe5a36c84cf58e453!2sBandra%20West%2C%20Mumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(120%)' }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
 
